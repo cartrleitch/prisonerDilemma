@@ -6,7 +6,7 @@
 # 5. If one player ignores and the other attacks, the attacker gains 6 points and the defender loses 7 points.
         
 # play game function
-def playGame(p1, p2, numRounds=50):
+def playGame(p1, p2, numRounds=50, printResults=False):
     p1Score = 0
     p2Score = 0
     p1Board = []
@@ -18,8 +18,9 @@ def playGame(p1, p2, numRounds=50):
         p1Board.append(p1(p2Board, round))
         p2Board.append(p2(p1Board, round))
 
-    print(f"Player 1: {p1Board}")
-    print(f"Player 2: {p2Board}")
+    if printResults:
+        print(f"Player 1: {p1Board}")
+        print(f"Player 2: {p2Board}")
 
     # calculate scores
     for round in range(numRounds):
@@ -50,16 +51,17 @@ def playGame(p1, p2, numRounds=50):
             p2Score -= 7
         else:
             print('Error')
-    
-    print(f"Player 1 score: {p1Score}")
-    print(f"Player 2 score: {p2Score}")
+    if printResults:
+        print(f"Player 1 score: {p1Score}")
+        print(f"Player 2 score: {p2Score}")
 
     return [p1Score, p2Score]
     
 scores = []
 
 # plays all strategies against each other and against itself
-def playAllStrategies(strategyList):
+def playAllStrategies(strategyList, printResults=True):
+    global averageDict
     gameNum = 0
     stratTotal = 0
     stratAvgs = []
@@ -67,16 +69,41 @@ def playAllStrategies(strategyList):
     for strategy1 in strategyList:
         stratTotal = 0
         for strategy2 in strategyList:
-            print(f"Playing {strategy1.__name__} vs {strategy2.__name__}")
-            result = playGame(strategy1, strategy2)
+            if printResults:
+                print(f"Playing {strategy1.__name__} vs {strategy2.__name__}")
+                print("\n\n")
+
+            result = playGame(strategy1, strategy2, printResults=printResults)
             gameNum += 1
             stratTotal += result[0]
             scores.append(f"Game: {gameNum}\n{strategy1.__name__} score: {result[0]}\n{strategy2.__name__} score: {result[1]}\n")
-            print("\n\n")
+        
         stratAvgs.append(f"{strategy1.__name__} Average: {round(stratTotal / len(strategyList), 2)}")
+        if averageDict != {}:
+            averageDict[f"{strategy1.__name__}"] = averageDict.get(f"{strategy1.__name__}") + round(stratTotal / len(strategyList), 2)
+        
+    if printResults:
+        for i in scores:
+            print(i)
+        
+        for i in stratAvgs:
+            print(i)
 
-    for i in scores:
-        print(i)
+
+# plays all strategies against each other and against itself multiple times
+global averageDict
+averageDict = {}
+
+def playAllStrategiesMultiple(strategyList, numIterations=50, printResults=False):
+    global averageDict 
+    averageDict = {}
+    for i in range(len(strategyList)):
+        averageDict[f"{strategyList[i].__name__}"] = 0
     
-    for i in stratAvgs:
-        print(i)
+    for i in range(numIterations):
+        playAllStrategies(strategyList, printResults)
+    
+    print(f'Average of {numIterations} iterations:')
+    for i in averageDict:
+        averageDict[i] = round(averageDict[i] / numIterations, 2)
+        print(f"{i} average: {averageDict[i]}")

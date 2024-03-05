@@ -65,3 +65,4 @@ def steadfastFriend(enemyBoard, round):
             return 'H'
     else:
         return 'H'
+    
