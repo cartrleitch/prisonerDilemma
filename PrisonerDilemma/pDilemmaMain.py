@@ -71,7 +71,7 @@ def playAllStrategies(strategyList):
             result = playGame(strategy1, strategy2)
             gameNum += 1
             stratTotal += result[0]
-            scores.append(f"{gameNum}\n{strategy1.__name__} score: {result[0]}\n{strategy2.__name__} score: {result[1]}\n")
+            scores.append(f"Game: {gameNum}\n{strategy1.__name__} score: {result[0]}\n{strategy2.__name__} score: {result[1]}\n")
             print("\n\n")
         stratAvgs.append(f"{strategy1.__name__} Average: {stratTotal / len(strategyList)}")
 
