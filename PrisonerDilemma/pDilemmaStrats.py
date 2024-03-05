@@ -65,4 +65,35 @@ def steadfastFriend(enemyBoard, round):
             return 'H'
     else:
         return 'H'
+
+def forgivingSteadfastFriend(enemyBoard, round):
+    if round != 0:
+        if round > 1 and enemyBoard[round-1] == 'A' and enemyBoard[round-2] == 'A':
+            if random.randint(1, 10) == 1:
+                return 'H'
+            else:
+                return 'A'
+        else:
+            return 'H'
+    else:
+        return 'H'
     
+def lazyFriend(enemyBoard, round):
+    if round != 0:
+        if round > 1 and enemyBoard[round-1] == 'A' and enemyBoard[round-2] == 'A':
+            return 'I'
+        elif round > 2 and enemyBoard[round-1] == 'A' and enemyBoard[round-2] == 'A' and enemyBoard[round-3] == 'A':
+            return 'A'
+        else:
+            return 'H'
+    else:
+        return 'H'
+    
+def selfishFriend(enemyBoard, round):
+    if round != 0:
+        if enemyBoard[round-1] == 'H':
+            return 'H'
+        else:
+            return 'I'
+    else:
+        return 'H'
