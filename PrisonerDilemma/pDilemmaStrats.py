@@ -2,7 +2,7 @@ import random
 
 # list of strategies:
 # titForTat, violentIgnorer, otherCheek, loco, randomChoice, 
-# scaredyCat, meanGuy, greatIgnorer
+# scaredyCat, meanGuy, greatIgnorer, steadfastFriend
 
 # strategy defintions
 def titForTat(enemyBoard, round):
@@ -56,3 +56,12 @@ def meanGuy(enemyBoard, round):
     
 def greatIgnorer(enemyBoard, round):
     return 'I'
+
+def steadfastFriend(enemyBoard, round):
+    if round != 0:
+        if round > 1 and enemyBoard[round-1] == 'A' and enemyBoard[round-2] == 'A':
+            return 'A'
+        else:
+            return 'H'
+    else:
+        return 'H'
