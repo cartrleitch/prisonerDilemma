@@ -124,15 +124,24 @@ scores = []
 # plays all strategies against each other and against itself
 def playAllStrategies():
     gameNum = 0
+    stratTotal = 0
+    stratAvgs = []
+
     for strategy1 in strategyList:
+        stratTotal = 0
         for strategy2 in strategyList:
             print(f"Playing {strategy1.__name__} vs {strategy2.__name__}")
             result = playGame(strategy1, strategy2)
             gameNum += 1
+            stratTotal += result[0]
             scores.append(f"{gameNum}\n{strategy1.__name__} score: {result[0]}\n{strategy2.__name__} score: {result[1]}\n")
             print("\n\n")
+        stratAvgs.append(f"{strategy1.__name__} Average: {stratTotal / len(strategyList)}")
 
     for i in scores:
+        print(i)
+    
+    for i in stratAvgs:
         print(i)
     
 #playGame(loco, loco)
